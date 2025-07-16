@@ -7,8 +7,6 @@
 <body>
 <div class="container mt-5">
     <h2>Add New Sweet</h2>
-    <a href="{% url 'purchase_sweet' %}" class="btn btn-primary mt-3">Go to Purchase Page</a>
-
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -51,8 +49,6 @@
     </div>
 </form>
 
-
-
 <hr>
 <h3 class="mt-5">Available Sweets</h3>
 <table class="table table-bordered mt-3">
@@ -81,6 +77,10 @@
         {% endfor %}
     </tbody>
 </table>
+
+<hr>
+<a href="{% url 'purchase_sweet' %}" class="btn btn-primary mt-3">Go to Purchase Page</a>
+<a href="{% url 'restock_sweet' %}" class="btn btn-warning mt-2">Go to Restock Page</a>
 
 </div>
 </body>

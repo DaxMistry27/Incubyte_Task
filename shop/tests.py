@@ -100,3 +100,33 @@ class PurchaseSweetViewTest(TestCase):
         self.assertContains(response, "Not enough stock")
         self.sweet.refresh_from_db()
         self.assertEqual(self.sweet.quantity, 50)
+
+class RestockSweetViewTest(TestCase):
+    def setUp(self):
+        self.sweet = Sweet.objects.create(
+            name="Rasgulla",
+            category="Milk-Based",
+            price=25,
+            quantity=10
+        )
+
+    def test_restock_success(self):
+        response = self.client.post(reverse('restock_sweet'), {
+            'sweet_id': self.sweet.id,
+            'quantity': 15
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.sweet.refresh_from_db()
+        self.assertEqual(self.sweet.quantity, 25)
+
+    def test_restock_negative_quantity(self):
+        response = self.client.post(reverse('restock_sweet'), {
+            'sweet_id': self.sweet.id,
+            'quantity': -5
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Invalid quantity")
+        self.sweet.refresh_from_db()
+        self.assertEqual(self.sweet.quantity, 10)

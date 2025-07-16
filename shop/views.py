@@ -69,3 +69,24 @@ def purchase_sweet(request):
         'sweets': sweets,
         'error': error
     })
+
+def restock_sweet(request):
+    sweets = Sweet.objects.all()
+    error = None
+
+    if request.method == 'POST':
+        sweet_id = request.POST.get('sweet_id')
+        quantity = int(request.POST.get('quantity', 0))
+
+        if quantity <= 0:
+            error = "Invalid quantity"
+        else:
+            sweet = get_object_or_404(Sweet, id=sweet_id)
+            sweet.quantity += quantity
+            sweet.save()
+            return redirect('add_sweet')
+
+    return render(request, 'shop/restock_sweet.html', {
+        'sweets': sweets,
+        'error': error
+    })
