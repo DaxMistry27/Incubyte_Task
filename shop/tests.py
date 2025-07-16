@@ -1,7 +1,4 @@
 from django.test import TestCase
-
-# Create your tests here.
-from django.test import TestCase
 from django.urls import reverse
 from .models import Sweet
 
@@ -27,3 +24,22 @@ class AddSweetViewTest(TestCase):
         self.assertEqual(sweet.category, "Milk-Based")
         self.assertEqual(sweet.price, 15)
         self.assertEqual(sweet.quantity, 40)
+
+class DeleteSweetViewTest(TestCase):
+    def setUp(self):
+        self.sweet = Sweet.objects.create(
+            name="Gulab Jamun",
+            category="Milk-Based",
+            price=10,
+            quantity=50
+        )
+
+    def test_delete_sweet(self):
+        sweet_id = self.sweet.id
+        response = self.client.post(reverse('delete_sweet', args=[sweet_id]))
+
+        # Check redirect
+        self.assertEqual(response.status_code, 302)
+
+        # Check sweet is deleted
+        self.assertFalse(Sweet.objects.filter(id=sweet_id).exists())

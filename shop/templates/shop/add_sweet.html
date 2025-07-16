@@ -12,6 +12,36 @@
         {{ form.as_p }}
         <button type="submit" class="btn btn-success">Add Sweet</button>
     </form>
+    <!-- BELOW the form in add_sweet.html -->
+<hr>
+<h3 class="mt-5">Available Sweets</h3>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sweet in sweets %}
+        <tr>
+            <td>{{ sweet.name }}</td>
+            <td>{{ sweet.category }}</td>
+            <td>{{ sweet.price }}</td>
+            <td>{{ sweet.quantity }}</td>
+            <td>
+                <a href="{% url 'delete_sweet' sweet.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No sweets found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 </div>
 </body>
 </html>
