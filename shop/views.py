@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect,get_object_or_404
-
+from django.contrib import messages
 from .models import Sweet
 from .forms import SweetForm
 
@@ -48,3 +48,24 @@ def delete_sweet(request, sweet_id):
         sweet.delete()
         return redirect('add_sweet')
     return render(request, 'shop/confirm_delete.html', {'sweet': sweet})
+
+def purchase_sweet(request):
+    sweets = Sweet.objects.all()
+    error = None
+
+    if request.method == 'POST':
+        sweet_id = request.POST.get('sweet_id')
+        quantity = int(request.POST.get('quantity', 0))
+        sweet = get_object_or_404(Sweet, id=sweet_id)
+
+        if sweet.quantity >= quantity:
+            sweet.quantity -= quantity
+            sweet.save()
+            return redirect('add_sweet')
+        else:
+            error = "Not enough stock"
+
+    return render(request, 'shop/purchase_sweet.html', {
+        'sweets': sweets,
+        'error': error
+    })

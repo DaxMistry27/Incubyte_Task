@@ -70,3 +70,33 @@ class SearchSortSweetViewTest(TestCase):
         sweets = list(response.context['sweets'])
         self.assertEqual(sweets[0].name, "Lollipop")
         self.assertEqual(sweets[-1].name, "Kaju Katli")
+
+class PurchaseSweetViewTest(TestCase):
+    def setUp(self):
+        self.sweet = Sweet.objects.create(
+            name="Gulab Jamun",
+            category="Milk-Based",
+            price=10,
+            quantity=50
+        )
+
+    def test_purchase_success(self):
+        response = self.client.post(reverse('purchase_sweet'), {
+            'sweet_id': self.sweet.id,
+            'quantity': 10
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.sweet.refresh_from_db()
+        self.assertEqual(self.sweet.quantity, 40)
+
+    def test_purchase_insufficient_stock(self):
+        response = self.client.post(reverse('purchase_sweet'), {
+            'sweet_id': self.sweet.id,
+            'quantity': 100
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Not enough stock")
+        self.sweet.refresh_from_db()
+        self.assertEqual(self.sweet.quantity, 50)

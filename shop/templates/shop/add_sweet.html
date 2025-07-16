@@ -7,6 +7,8 @@
 <body>
 <div class="container mt-5">
     <h2>Add New Sweet</h2>
+    <a href="{% url 'purchase_sweet' %}" class="btn btn-primary mt-3">Go to Purchase Page</a>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
