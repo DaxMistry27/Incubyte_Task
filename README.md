@@ -31,24 +31,24 @@ Includes features like adding, deleting, searching, sorting, purchasing, and res
 
 ## 📂 Project Structure
 sweetshop_project/
-├── shop/
-│ ├── templates/shop/
-│ │ ├── add_sweet.html
-│ │ ├── confirm_delete.html
-│ │ ├── purchase_sweet.html
-│ │ └── restock_sweet.html
-│ ├── tests.py
-│ ├── views.py
-│ ├── urls.py
-│ ├── models.py
-│ └── forms.py
-├── sweetshop_project/
-│ ├── settings.py
-│ └── wsgi.py
-├── manage.py
-├── requirements.txt
-├── Procfile
-└── README.md
+- ├── shop/
+- │ ├── templates/shop/
+- │ │ ├── add_sweet.html
+- │ │ ├── confirm_delete.html
+- │ │ ├── purchase_sweet.html
+- │ │ └── restock_sweet.html
+- │ ├── tests.py
+- │ ├── views.py
+- │ ├── urls.py
+- │ ├── models.py
+- │ └── forms.py
+- ├── sweetshop_project/
+- │ ├── settings.py
+- │ └── wsgi.py
+- ├── manage.py
+- ├── requirements.txt
+- ├── Procfile
+- └── README.md
 
 
 ---
